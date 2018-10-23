@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: task-storage-server
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        serviceId: config-server
+      profile: local
+      label: v0.0.1
+
+username: root
+password: abc12345
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 2
+    leaseExpirationDurationInSeconds: 6
+  client:
+    serviceUrl:
+      defaultZone: http://${username}:${password}@instance1:8001/eureka/,http://${username}:${password}@instance2:8002/eureka/

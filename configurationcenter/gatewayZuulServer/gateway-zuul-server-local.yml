@@ -1,0 +1,22 @@
+spring:
+  application:
+    name:
+server:
+  port: 8010
+---
+spring:
+  profiles: local
+  mvc:
+    static-path-pattern: /api/**
+  resources:
+    static-locations: /
+eureka:
+  instance:
+    hostname: 192.168.1.202
+    instanceId: ${spring.application.name}:${server.port}
+    leaseRenewalIntervalInSeconds: 2
+    leaseExpirationDurationInSeconds: 6
+  client:
+    serviceUrl:
+      defaultZone: http://root:abc12345@instance1:8001/eureka/,http://root:abc12345@instance2:8002/eureka/
+---

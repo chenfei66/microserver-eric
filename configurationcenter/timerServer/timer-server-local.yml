@@ -1,0 +1,90 @@
+db-name:
+server-hostname: instance
+
+spring:
+  application:
+    name: 
+
+server:
+  port: 8009
+  context-path: /
+  tomcat:
+    buffered: true
+    uri-encoding: utf-8
+    accesslog:
+      enabled: true
+      directory:
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+endpoints:
+  shutdown: 
+    enabled: true
+
+username: root
+password: abc12345
+
+eureka:
+  instance:
+    hostname: 192.168.1.202
+    instanceId: ${spring.application.name}:${server.port}
+    leaseRenewalIntervalInSeconds: 2
+    leaseExpirationDurationInSeconds: 6
+  client:
+    serviceUrl:
+      defaultZone: http://${username}:${password}@instance1:8001/eureka/,http://${username}:${password}@instance2:8002/eureka/
+start-up-config:
+  mysql: true
+  redis: false
+
+message-queue:
+  hostName: 192.168.1.101
+  port: 5672
+  userName: admin
+  password: admin
+  virtualHost: /
+  publisherConfirms: true
+  profile: local
+  numberOfFailures: 5
+  clock: false
+  updateTimeUrl: http://CLOCK-SERVER-LOCAL
+  storageServer:
+
+redis-config:
+  host: localhost
+  port: 6379
+  auth:
+  maxActive: 200
+  maxIdle: 32
+  maxWait: 10000
+  timeOut: 10000
+  testOnBorrow: false
+---
+spring:
+  profiles: local
+  datasource:
+    db1:
+      url: jdbc:mysql://192.168.1.100:3306/${db-name}?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=true
+      username: micro_user
+      password: qweasdzxc~!@#
+  data:
+    mongodb:
+      host: 192.168.1.202
+      port: 27017
+      authentication-database: admin
+      database: ${db-name}
+      username: root
+      password: root
+
+  mvc:
+    static-path-pattern: /api/**
+  resources:
+    #static-locations: file:/Users/eric/project/microserver/timerserver/polestatic/api/
+    static-locations: file:/mnt/microservice-cluster-instance/timer-server-1/bin/polestatic/api/
+---

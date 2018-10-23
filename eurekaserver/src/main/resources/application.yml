@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: eureka-server
+server:
+  port: 8002
+  context-path: /
+  tomcat:
+    uri-encoding: utf-8
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+      sensitive: false
+
+username: root
+password: abc12345
+
+eureka:
+  instance:
+    hostname: instance2
+    instanceId: ${spring.application.name}:${server.port}
+  server:
+    enableSelfPreservation: false #默认启动自我保护机制
+    evictionIntervalTimerInMs: 5000
+  client:
+    serviceUrl:
+      defaultZone: http://${username}:${password}@instance1:8001/eureka/
+# 安全认证的配置
+security:
+  basic:
+    enabled: true
+  user:
+    name: ${username}
+    password: ${password}

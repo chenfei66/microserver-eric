@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://gitlab.hushijie.com.cn/root/configurationcenter.git
+          username: wangqiang
+          password: zhbyQMUP3510,/.
+          searchPaths: /*
+server:
+  port: 8003
+  context-path: /
+  tomcat:
+    buffered: true
+    uri-encoding: utf-8
+    accesslog:
+      enabled: true
+      directory:
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+
+  mvc:
+    static-path-pattern: /api/**
+  resources:
+    static-locations: /
+
+username: root
+password: abc12345
+
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${server.port}
+    leaseRenewalIntervalInSeconds: 2
+    leaseExpirationDurationInSeconds: 6
+  client:
+    serviceUrl:
+      defaultZone: http://${username}:${password}@instance1:8001/eureka/,http://${username}:${password}@instance2:8002/eureka/
